@@ -21,20 +21,17 @@ def process_file(file, podcast_episode):
 
     # Step 5: Prepare the output text and input for audio generation
     output_text = ""
-    audio_input = []
     for item in summaries:
         title = item["day"]
         summary = item["response"]
-        combined = f"{title}\n{summary}"
-        output_text += combined + "\n\n"
-        audio_input.append((title, combined))
+        output_text += f"{title}\n{summary}\n\n"
 
-    # Step 6: Generate audio files from summaries
-    audio_files = fn.generate_audio_files(audio_input)
+    # Step 6: Use the original translated day texts for audio
+    audio_files = fn.generate_audio_files(days)
+
 
     # Step 7: Return all outputs to the UI
     return translated, output_text, audio_files
-
 
 
 with gr.Blocks() as demo:

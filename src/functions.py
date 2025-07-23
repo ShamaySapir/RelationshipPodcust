@@ -69,16 +69,23 @@ def translate_week_episodes(text):
     return response
 
 
-def divide_episodes(text): 
+def divide_episodes(text):
     pattern = r'(Week\s+\d+\s+Day\s+\d+)'
-    parts = re.split(pattern, text)
+    matches = list(re.finditer(pattern, text))
 
     days = []
-    for i in range(1, len(parts), 2):
-        title = parts[i].strip()
-        content = parts[i + 1].strip()
-        days.append((title, f"{title}\n{content}"))
+
+    for i in range(len(matches)):
+        start = matches[i].start()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+
+        title = matches[i].group(1).strip()
+        content = text[start:end].strip()
+
+        days.append((title, content))
+
     return days
+
 
 def user_prompt_for_title(day_text, z):
     user_prompt = PROMPTS["summarize_title"]

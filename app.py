@@ -6,8 +6,9 @@ def process_file(file, podcast_episode):
     if file is None:
         return "No file uploaded.", None, None
 
-    # Step 1: Read the text from the uploaded file
-    text = file.read().decode("utf-8")
+    # Step 1: Read text from the uploaded file
+    with open(file.name, "r", encoding="utf-8") as f:
+        text = f.read()
 
     # Step 2: Translate the Hebrew text to English
     translated = fn.translate_week_episodes(text)
@@ -56,5 +57,5 @@ with gr.Blocks() as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(share=True)
+    demo.launch()#share=True)
 

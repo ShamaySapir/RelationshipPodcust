@@ -42,12 +42,7 @@ headers = {
     "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3",
     "User-Agent": "myTTSApp"
 }
-
-
-def read_file(file_path):
-    with open(file_path, 'r') as file:
-        return file.read()
-    
+   
 
 def generic_response(user_prompt, system_prompt, model=deployment):
     response = client.chat.completions.create(

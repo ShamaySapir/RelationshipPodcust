@@ -20,3 +20,4 @@ __pycache__/
 files
 
 .gradio/
+*.mp3

@@ -54,5 +54,6 @@ with gr.Blocks() as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(share=True)
+    fn.hebrew_speech_test()
+    # demo.launch(share=True)
 

@@ -40,7 +40,7 @@ headers = {
     "Ocp-Apim-Subscription-Key": key,
     "Content-Type": "application/ssml+xml",
     "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3",
-    "User-Agent": "myTTSApp"
+    "User-Agent": "curl"
 }
    
 
@@ -137,7 +137,21 @@ def create_ssml(text, voice="en-US-JennyNeural"):
     """
     return ssml
 
+def create_ssml_hebrew(text, voice="he-IL-AvriNeural"):
+    voice = voice or "he-IL-HilaNeural"
+    ssml = f"""
+    <speak version='1.0' xml:lang='he-IL'>
+        <voice name="{voice}">
+            {text}
+        </voice>
+    </speak>"""
+    print(repr(ssml))
+    return ssml
+
+
 def create_audio_file(ssml, filename, endpoint, headers):
+    print(f"KEY: {key}")
+    print(f"REGION: {region}")
     # Make the POST request
     response = requests.post(endpoint, headers=headers, data=ssml.encode('utf-8'))
 
@@ -147,7 +161,7 @@ def create_audio_file(ssml, filename, endpoint, headers):
             f.write(response.content)
         print(f"Audio saved as {filename}")
     else:
-        print(f"Error: {response.status_code}")
+        print(f"Error: {response.status_code} Eroror message: {response.text}")
         print(response.text)
 
 
@@ -170,6 +184,11 @@ def generate_audio_files(days, voice="en-US-AndrewNeural", output_folder="audio"
             print(f"⚠️ Error with {title}: {e}")
     
     return audio_files
+
+def hebrew_speech_test():
+    ssml = create_ssml_hebrew("בוקר טוב מה שלומך הבוקר?")
+    filename = "hebrew_test_2.mp3"
+    create_audio_file(ssml, filename, endpoint, headers)
 
 
 
